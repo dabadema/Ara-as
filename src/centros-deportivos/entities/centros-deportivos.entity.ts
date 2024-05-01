@@ -17,6 +17,6 @@ export class CentrosDeportivosEntity {
   @Column({ name: 'telefono', type: 'varchar', length: 15 })
   telefono: string;
 
-  @Column({ name: 'correo_electronico', type: 'varchar' })
-  correoElectronico: string;
+  @Column({ name: 'email', type: 'varchar' })
+  email: string;
 }

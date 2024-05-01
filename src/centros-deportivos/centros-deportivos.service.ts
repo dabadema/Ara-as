@@ -17,13 +17,13 @@ export class CentrosDeportivosService {
   ) {}
 
   async create(createCentrosDeportivoDto: CreateCentrosDeportivoDto) {
-    const { ciudad, correoElectronico, direccion, nombre, telefono } =
+    const { ciudad, email, direccion, nombre, telefono } =
       createCentrosDeportivoDto;
     const centrosDeportivosEntity = new CentrosDeportivosEntity();
 
     centrosDeportivosEntity.centroId = generateUUID();
     centrosDeportivosEntity.ciudad = ciudad;
-    centrosDeportivosEntity.correoElectronico = correoElectronico;
+    centrosDeportivosEntity.email = email;
     centrosDeportivosEntity.direccion = direccion;
     centrosDeportivosEntity.nombre = nombre;
     centrosDeportivosEntity.telefono = telefono;
