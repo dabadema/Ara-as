@@ -1,26 +1,65 @@
 import { Injectable } from '@nestjs/common';
-import { CreateInstalacioneDto } from './dto/create-instalacione.dto';
-import { UpdateInstalacioneDto } from './dto/update-instalacione.dto';
+import { CreateInstalacionesDto } from './dto/create-instalaciones.dto';
+import { UpdateInstalacionesDto } from './dto/update-instalacione.dto';
+import { InstalacionesEntity } from './entities/instalaciones.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { generateUUID } from 'src/utils/uuid';
 
 @Injectable()
 export class InstalacionesService {
-  create(createInstalacioneDto: CreateInstalacioneDto) {
-    return 'This action adds a new instalacione';
+  /**
+   * Constructor
+   */
+  constructor(
+    @InjectRepository(InstalacionesEntity)
+    private readonly instalacionesEntityRepository: Repository<InstalacionesEntity>,
+  ) {}
+
+  async create(createInstalacionesDto: CreateInstalacionesDto) {
+    const { nombre, descripcion, centroId } = createInstalacionesDto;
+    const instalacionesEntity = new InstalacionesEntity();
+
+    instalacionesEntity.instalacionId = generateUUID();
+    instalacionesEntity.nombre = nombre;
+    instalacionesEntity.descripcion = descripcion;
+    instalacionesEntity.centroId = centroId;
+
+    const nuevoAcceso =
+      await this.instalacionesEntityRepository.save(instalacionesEntity);
+
+    return nuevoAcceso;
   }
 
-  findAll() {
-    return `This action returns all instalaciones`;
+  async findAll() {
+    const todasInstalaciones = await this.instalacionesEntityRepository.find(
+      {},
+    );
+    return todasInstalaciones;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} instalacione`;
+  async findOne(id: string) {
+    const accesoById = await this.instalacionesEntityRepository.find({
+      where: {
+        instalacionId: id,
+      },
+    });
+    return accesoById;
   }
 
-  update(id: number, updateInstalacioneDto: UpdateInstalacioneDto) {
+  update(id: number, updateInstalacionesDto: UpdateInstalacionesDto) {
     return `This action updates a #${id} instalacione`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} instalacione`;
+  async remove(id: string) {
+    const borrarInstalacionById =
+      await this.instalacionesEntityRepository.findOne({
+        where: {
+          instalacionId: id,
+        },
+      });
+
+    await this.instalacionesEntityRepository.delete(borrarInstalacionById);
+    return borrarInstalacionById;
   }
 }

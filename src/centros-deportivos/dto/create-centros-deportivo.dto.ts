@@ -3,17 +3,18 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export class CreateCentrosDeportivoDto {
   @IsNotEmpty()
   @IsString()
-  nombre: string;
+  centroId: string;
 
   @IsNotEmpty()
+  @IsString()
+  nombre: string;
+
   @IsString()
   direccion: string;
 
-  @IsNotEmpty()
   @IsString()
   telefono: string;
 
-  @IsNotEmpty()
   @IsString()
   ciudad: string;
 

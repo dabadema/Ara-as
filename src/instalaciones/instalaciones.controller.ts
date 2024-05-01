@@ -1,15 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { InstalacionesService } from './instalaciones.service';
-import { CreateInstalacioneDto } from './dto/create-instalacione.dto';
-import { UpdateInstalacioneDto } from './dto/update-instalacione.dto';
+import { CreateInstalacionesDto } from './dto/create-instalaciones.dto';
+import { UpdateInstalacionesDto } from './dto/update-instalacione.dto';
 
 @Controller('instalaciones')
 export class InstalacionesController {
   constructor(private readonly instalacionesService: InstalacionesService) {}
 
   @Post()
-  create(@Body() createInstalacioneDto: CreateInstalacioneDto) {
-    return this.instalacionesService.create(createInstalacioneDto);
+  create(@Body() createInstalacionesDto: CreateInstalacionesDto) {
+    return this.instalacionesService.create(createInstalacionesDto);
   }
 
   @Get()
@@ -19,16 +27,19 @@ export class InstalacionesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.instalacionesService.findOne(+id);
+    return this.instalacionesService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInstalacioneDto: UpdateInstalacioneDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateInstalacioneDto: UpdateInstalacionesDto,
+  ) {
     return this.instalacionesService.update(+id, updateInstalacioneDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.instalacionesService.remove(+id);
+    return this.instalacionesService.remove(id);
   }
 }

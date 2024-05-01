@@ -8,7 +8,7 @@ import { generateUUID } from 'src/utils/uuid';
 
 @Injectable()
 export class CentrosDeportivosService {
-  x; /**
+  /**
    * Constructor
    */
   constructor(
@@ -57,7 +57,7 @@ export class CentrosDeportivosService {
   }
 
   async remove(id: string) {
-    const borrarCentroDeportiboById =
+    const borrarCentroDeportivoById =
       await this.centrosDeportivosEntityRepository.findOne({
         where: {
           centroId: id,
@@ -65,8 +65,8 @@ export class CentrosDeportivosService {
       });
 
     await this.centrosDeportivosEntityRepository.delete(
-      borrarCentroDeportiboById,
+      borrarCentroDeportivoById,
     );
-    return borrarCentroDeportiboById;
+    return borrarCentroDeportivoById;
   }
 }
