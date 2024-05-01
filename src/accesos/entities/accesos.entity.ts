@@ -1,12 +1,12 @@
 import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity('accesos')
-export class AccesoEntity {
+export class AccesosEntity {
   @PrimaryColumn({ name: 'acceso_id' })
-  accesoId: number;
+  accesoId: string;
 
   @Column({ name: 'fecha_hora', type: 'timestamp' })
-  fechaHora: Date;
+  fechaHora: string; // Esto deberia de ser un Date pero de momento lo dejo as'i
 
   @Column({ name: 'user_id' })
   userId: string;

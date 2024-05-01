@@ -8,7 +8,7 @@ import { generateUUID } from 'src/utils/uuid';
 
 @Injectable()
 export class CentrosDeportivosService {
-  /**
+  x; /**
    * Constructor
    */
   constructor(

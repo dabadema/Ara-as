@@ -1,6 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AccesosService } from './accesos.service';
-import { CreateAccesoDto } from './dto/create-acceso.dto';
+import { CreateAccesosDto } from './dto/create-acceso.dto';
 import { UpdateAccesoDto } from './dto/update-acceso.dto';
 
 @Controller('accesos')
@@ -8,7 +16,7 @@ export class AccesosController {
   constructor(private readonly accesosService: AccesosService) {}
 
   @Post()
-  create(@Body() createAccesoDto: CreateAccesoDto) {
+  create(@Body() createAccesoDto: CreateAccesosDto) {
     return this.accesosService.create(createAccesoDto);
   }
 
@@ -19,7 +27,7 @@ export class AccesosController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.accesosService.findOne(+id);
+    return this.accesosService.findOne(id);
   }
 
   @Patch(':id')
@@ -29,6 +37,6 @@ export class AccesosController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.accesosService.remove(+id);
+    return this.accesosService.remove(id);
   }
 }
