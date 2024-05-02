@@ -6,20 +6,24 @@ import {
   Patch,
   Param,
   Delete,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 
 import { UsuariosService } from './usuarios.service';
-import { CreateUsuariosDto } from './dto/create-usuarios.dto';
-import { UpdateUsuariosDto } from './dto/update-usuarios.dto';
+import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { LoginUsuarioDto } from './dto/login-usuario.dto';
 
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
+  @Post('login')
+  async login(@Body() loginUsuarioDto: LoginUsuarioDto) {
+    return this.usuariosService.validateUser(loginUsuarioDto);
+  }
+
   @Post()
-  create(@Body() createUsuarioDto: CreateUsuariosDto) {
+  create(@Body() createUsuarioDto: CreateUsuarioDto) {
     return this.usuariosService.create(createUsuarioDto);
   }
 
@@ -34,8 +38,8 @@ export class UsuariosController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuariosDto) {
-    return this.usuariosService.update(+id, updateUsuarioDto);
+  update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
+    return this.usuariosService.update(id, updateUsuarioDto);
   }
 
   @Delete(':id')

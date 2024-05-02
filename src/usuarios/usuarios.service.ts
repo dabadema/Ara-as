@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUsuariosDto } from './dto/create-usuarios.dto';
-import { UpdateUsuariosDto } from './dto/update-usuarios.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { LoginUsuarioDto } from './dto/login-usuario.dto';
 import { UsuariosEntity } from './entities/usuarios.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -16,7 +17,22 @@ export class UsuariosService {
     private readonly usuariosEntityRepository: Repository<UsuariosEntity>,
   ) {}
 
-  async create(createUsuarioDto: CreateUsuariosDto) {
+  async validateUser(loginUsuarioDto: LoginUsuarioDto): Promise<any> {
+    const user = await this.usuariosEntityRepository.findOne({
+      where: {
+        email: loginUsuarioDto.email,
+        password: loginUsuarioDto.password,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuario o contraseña inválida');
+    }
+
+    return user;
+  }
+
+  async create(createUsuarioDto: CreateUsuarioDto) {
     const {
       nombre,
       apellidos,
@@ -49,7 +65,7 @@ export class UsuariosService {
   }
 
   async findOne(id: string) {
-    const usuarioById = await this.usuariosEntityRepository.find({
+    const usuarioById = await this.usuariosEntityRepository.findOne({
       where: {
         userId: id,
       },
@@ -57,8 +73,19 @@ export class UsuariosService {
     return usuarioById;
   }
 
-  update(id: number, updateUsuariosDto: UpdateUsuariosDto) {
-    return `This action updates a #${id} usuario`;
+  async update(
+    id: string,
+    updateUsuarioDto: UpdateUsuarioDto,
+  ): Promise<UsuariosEntity> {
+    const usuario = await this.usuariosEntityRepository.preload({
+      userId: id,
+      ...updateUsuarioDto,
+    });
+    if (!usuario) {
+      throw new Error('Usuario no encontrado');
+    }
+
+    return this.usuariosEntityRepository.save(usuario);
   }
 
   async remove(id: string) {
