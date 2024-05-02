@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsIn, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateUsuariosDto {
   // @IsNotEmpty()
@@ -26,6 +26,7 @@ export class CreateUsuariosDto {
 
   @IsNotEmpty()
   @IsString()
+  @IsIn(['usuario', 'administrador'])
   tipoUsuario: string;
 
   @IsNotEmpty()
