@@ -21,4 +21,8 @@ export class CreateCentrosDeportivoDto {
   @IsNotEmpty()
   @IsString()
   email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  userId: string;
 }

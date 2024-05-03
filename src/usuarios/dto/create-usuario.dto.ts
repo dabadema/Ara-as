@@ -32,4 +32,8 @@ export class CreateUsuarioDto {
   @IsNotEmpty()
   @IsString()
   telefono: string;
+
+  @IsNotEmpty()
+  @IsString()
+  centroId: string;
 }

@@ -41,6 +41,7 @@ export class UsuariosService {
       password,
       tipoUsuario,
       telefono,
+      centroId,
     } = createUsuarioDto;
     const usuariosEntity = new UsuariosEntity();
 
@@ -52,6 +53,7 @@ export class UsuariosService {
     usuariosEntity.password = password;
     usuariosEntity.tipoUsuario = tipoUsuario;
     usuariosEntity.telefono = telefono;
+    usuariosEntity.centroId = centroId;
 
     const nuevoUsuario =
       await this.usuariosEntityRepository.save(usuariosEntity);
@@ -62,6 +64,14 @@ export class UsuariosService {
   async findAll() {
     const todosUsuarios = await this.usuariosEntityRepository.find({});
     return todosUsuarios;
+  }
+
+  async findAllAdministrators(): Promise<UsuariosEntity[]> {
+    return await this.usuariosEntityRepository.find({
+      where: {
+        tipoUsuario: 'administrador',
+      },
+    });
   }
 
   async findOne(id: string) {

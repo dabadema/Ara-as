@@ -27,9 +27,9 @@ export class UsuariosController {
     return this.usuariosService.create(createUsuarioDto);
   }
 
-  @Get()
-  findAll() {
-    return this.usuariosService.findAll();
+  @Get('administradores')
+  findAllAdministrators() {
+    return this.usuariosService.findAllAdministrators();
   }
 
   @Get(':id')

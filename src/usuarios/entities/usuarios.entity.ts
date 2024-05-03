@@ -25,4 +25,7 @@ export class UsuariosEntity {
 
   @Column({ name: 'telefono', type: 'varchar' })
   telefono: string;
+
+  @Column({ name: 'centro_id', type: 'varchar' })
+  centroId: string;
 }
