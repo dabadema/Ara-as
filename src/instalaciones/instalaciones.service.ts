@@ -25,10 +25,10 @@ export class InstalacionesService {
     instalacionesEntity.descripcion = descripcion;
     instalacionesEntity.centroId = centroId;
 
-    const nuevoAcceso =
+    const nuevaInstalacion =
       await this.instalacionesEntityRepository.save(instalacionesEntity);
 
-    return nuevoAcceso;
+    return nuevaInstalacion;
   }
 
   async findAll() {
