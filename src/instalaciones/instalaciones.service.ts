@@ -38,13 +38,20 @@ export class InstalacionesService {
     return todasInstalaciones;
   }
 
+  async findAllInstalacionesByCentroId(centroId: string) {
+    const allInstalacionesById = await this.instalacionesEntityRepository.find({
+      where: { centroId: centroId },
+    });
+    return allInstalacionesById;
+  }
+
   async findOne(id: string) {
-    const accesoById = await this.instalacionesEntityRepository.find({
+    const instalacionById = await this.instalacionesEntityRepository.find({
       where: {
         instalacionId: id,
       },
     });
-    return accesoById;
+    return instalacionById;
   }
 
   update(id: number, updateInstalacionesDto: UpdateInstalacionesDto) {

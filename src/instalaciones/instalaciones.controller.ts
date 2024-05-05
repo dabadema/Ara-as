@@ -25,6 +25,11 @@ export class InstalacionesController {
     return this.instalacionesService.findAll();
   }
 
+  @Get('/centro/:centroId')
+  findAllInstalacionesByCentroId(@Param('centroId') centroId: string) {
+    return this.instalacionesService.findAllInstalacionesByCentroId(centroId);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.instalacionesService.findOne(id);
