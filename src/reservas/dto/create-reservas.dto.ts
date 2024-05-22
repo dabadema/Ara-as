@@ -3,15 +3,11 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export class CreateReservasDto {
   @IsNotEmpty()
   @IsString()
-  reservaId: string;
+  fechaHoraInicio: string;
 
   @IsNotEmpty()
   @IsString()
-  fechaInicio: string;
-
-  @IsNotEmpty()
-  @IsString()
-  fechaFin: string;
+  fechaHoraFin: string;
 
   @IsNotEmpty()
   @IsString()
@@ -20,4 +16,8 @@ export class CreateReservasDto {
   @IsNotEmpty()
   @IsString()
   instalacionId: string;
+
+  @IsNotEmpty()
+  @IsString()
+  centroId: string;
 }

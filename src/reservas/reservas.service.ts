@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+// QUIERO ENTENDER PORQUE NO PUEDO USAR LOS ESTADOS ALMACENANDO DOS VALORES ME HA OCURRIDO CON EL CENTRO DEPORTIVO Y HE TENIDO QUE CREAR CENTRO DEPORTIVO ID, ME PARECEN DEMASIADOS ESTADOS
+
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateReservasDto } from './dto/create-reservas.dto';
 import { UpdateReservasDto } from './dto/update-reservas.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -17,19 +19,24 @@ export class ReservasService {
   ) {}
 
   async create(createReservasDto: CreateReservasDto) {
-    const { fechaInicio, fechaFin, userId, instalacionId } = createReservasDto;
+    const { fechaHoraInicio, fechaHoraFin, userId, instalacionId, centroId } =
+      createReservasDto;
     const reservasEntity = new ReservasEntity();
 
     reservasEntity.reservaId = generateUUID();
-    reservasEntity.fechaInicio = fechaInicio; //TODO este tipo de dato debe venir del front pero habra que restringir el FE para que sea una fecha y hora concreto
-    reservasEntity.fechaFin = fechaFin;
+    reservasEntity.fechaHoraInicio = fechaHoraInicio;
+    reservasEntity.fechaHoraFin = fechaHoraFin;
     reservasEntity.userId = userId;
     reservasEntity.instalacionId = instalacionId;
+    reservasEntity.centroId = centroId;
 
-    const nuevaReserva =
-      await this.reservasEntityRepository.save(reservasEntity);
-
-    return nuevaReserva;
+    try {
+      const nuevaReserva =
+        await this.reservasEntityRepository.save(reservasEntity);
+      return nuevaReserva;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   async findAll() {
@@ -45,6 +52,14 @@ export class ReservasService {
       },
     });
     return reservaById;
+  }
+
+  async findByInstalacion(instalacionId: string) {
+    return this.reservasEntityRepository.find({
+      where: {
+        instalacionId,
+      },
+    });
   }
 
   update(id: number, updateReservasDto: UpdateReservasDto) {

@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { ReservasService } from './reservas.service';
 import { CreateReservasDto } from './dto/create-reservas.dto';
@@ -16,13 +18,23 @@ export class ReservasController {
   constructor(private readonly reservasService: ReservasService) {}
 
   @Post()
-  create(@Body() createReservaDto: CreateReservasDto) {
-    return this.reservasService.create(createReservaDto);
+  async create(@Body() createReservaDto: CreateReservasDto) {
+    try {
+      const nuevaReserva = await this.reservasService.create(createReservaDto);
+      return nuevaReserva;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Get()
   findAll() {
     return this.reservasService.findAll();
+  }
+
+  @Get('instalacionId')
+  findByInstalacion(@Param('instalacionId') instalacionId: string) {
+    return this.reservasService.findByInstalacion(instalacionId);
   }
 
   @Get(':id')
