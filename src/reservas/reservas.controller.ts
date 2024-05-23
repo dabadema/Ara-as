@@ -32,7 +32,7 @@ export class ReservasController {
     return this.reservasService.findAll();
   }
 
-  @Get('instalacionId')
+  @Get(':instalacionId')
   findByInstalacion(@Param('instalacionId') instalacionId: string) {
     return this.reservasService.findByInstalacion(instalacionId);
   }
